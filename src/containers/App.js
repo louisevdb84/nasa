@@ -5,7 +5,26 @@ import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
 import ErrorBoundry from '../components/ErrorBoundry';
 
-const apiKey = 'ZiVYzNGovIia8j7qFkxGgbOA14zDFFMxCGcSLgYl';
+import { connect } from 'react-redux';
+import { setSearchField, requestImageOfTheDay, requestImages } from '../actions';
+
+const mapStateToProps = state => {
+    return {
+        searchField: state.searchImages.searchField,
+
+        images: state.requestImage.images,
+        isPending: state.requestImage.isPending,
+        error: state.requestImage.error,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+        onRequestImageOfTheDay: () => dispatch(requestImageOfTheDay()),
+        onRequestImages: (event) => dispatch(requestImages(event.target.value))
+    }
+}
 
 class App extends Component {
 
@@ -14,36 +33,19 @@ class App extends Component {
         this.state = {
             images: [],
         }
-
     }
 
     componentDidMount() {
-        fetch('https://api.nasa.gov/planetary/apod?api_key=' + apiKey)
-            .then(response => response.json())
-            .then(a => {
-                this.setState({ images: a });
-            })
-            .catch(err => {
-                console.log(err)
-            });
+        this.props.onRequestImageOfTheDay();
     }
 
     onSearchChange = (event) => {
-        fetch('https://images-api.nasa.gov/search?q=' + event.target.value +'&media_type=image')
-            .then(response => response.json())
-            .then(a => {                
-                this.setState({ images: a });
-                
-            })
-            .catch(err => {
-                console.log(err)
-            });
-
+        this.props.onRequestImages(event);
     }
 
     render() {
-
-        if (this.state.images.length === 0) {
+        const { images} = this.props
+        if (!images) {
             return <h1>Loading</h1>
         }
         else {
@@ -53,14 +55,14 @@ class App extends Component {
                     <SearchBox searchChange={this.onSearchChange} />
                     <Scroll>
                         <ErrorBoundry>
-                            <CardList images={this.state.images} />
+                            <CardList images={images} />
                         </ErrorBoundry>
                     </Scroll>
                 </div>
             )
         }
-    }   
+    }
 
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

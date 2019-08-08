@@ -1,12 +1,16 @@
 {
-  "homepage": "http://louisevdb84.github.io/nasa/index.html",
+  "homepage": "http://louisevdb84.github.io/nasa",
   "name": "nasa",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "0.9.x"
+    "react-redux": "^7.1.0",
+    "react-scripts": "0.9.x",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "gh-pages": "^2.0.0"

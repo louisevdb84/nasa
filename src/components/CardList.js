@@ -3,7 +3,6 @@ import Card from './Card';
 
 class CardList extends Component {
     render() {
-
         const { images } = this.props;
         return (
             <div>
