@@ -52,12 +52,8 @@ class App extends Component {
             return (
                 <div className='tc pa3'>
                     <h1>NASA</h1>
-                    <SearchBox searchChange={this.onSearchChange} />
-                    <Scroll>
-                        <ErrorBoundry>
-                            <CardList images={images} />
-                        </ErrorBoundry>
-                    </Scroll>
+                    <SearchBox searchChange={this.onSearchChange} />                   
+                            <CardList images={images} />                   
                 </div>
             )
         }
